@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
 	"unicode"
@@ -38,7 +37,7 @@ func main() {
 		s += i
 	}
 
-	fmt.Printf("Sum: %d\n", s)
+	// fmt.Printf("Sum: %d\n", s)
 	dat.Close()
 }
 
