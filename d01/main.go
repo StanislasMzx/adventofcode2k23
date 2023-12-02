@@ -1,11 +1,14 @@
 package main
 
 import (
-	"bufio"
-	"os"
+	_ "embed"
+	"fmt"
 	"strings"
 	"unicode"
 )
+
+//go:embed input.txt
+var input string
 
 var digits map[string]string = map[string]string{
 	"one":   "o1e",
@@ -20,30 +23,33 @@ var digits map[string]string = map[string]string{
 }
 
 func main() {
-	dat, err := os.Open("input.txt")
-	if err != nil {
-		panic(err)
-	}
+	fmt.Printf("Part 1: %d\n", partOne(input))
+	fmt.Printf("Part 2: %d\n", partTwo(input))
+}
 
-	file := bufio.NewScanner(dat)
-	file.Split(bufio.ScanLines)
-
+func partOne(f string) int {
 	s := 0
-	for file.Scan() {
-		i := extractDigits(file.Text())
+	for _, l := range strings.Split(f, "\n") {
+		i := extractDigits(l)
 		if i == -1 {
 			panic("Invalid input")
 		}
 		s += i
 	}
 
-	// fmt.Printf("Sum: %d\n", s)
-	dat.Close()
+	return s
+}
+
+func partTwo(f string) int {
+	s := 0
+	for _, l := range strings.Split(f, "\n") {
+		s += extractDigits(remplaceStringDigits(l))
+	}
+
+	return s
 }
 
 func extractDigits(s string) int {
-	s = remplaceStringDigits(s)
-
 	f := func(c rune) bool {
 		return unicode.IsDigit(c)
 	}

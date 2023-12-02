@@ -4,7 +4,7 @@ import "testing"
 
 func BenchmarkPartOne(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		partOne(input)
+		partOne(input, &config{r: 12, g: 13, b: 14})
 	}
 }
 
