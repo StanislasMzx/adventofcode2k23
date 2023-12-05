@@ -18,7 +18,7 @@ type seedMap struct {
 }
 
 func main() {
-	// fmt.Printf("Part 1: %d\n", partOne(input))
+	fmt.Printf("Part 1: %d\n", partOne(input))
 	fmt.Printf("Part 2: %d\n", partTwo(input))
 }
 
@@ -42,8 +42,7 @@ func partTwo(f string) int {
 	lines := strings.Split(f, "\n")
 	fields := strings.Fields(lines[0])
 	incr := -1
-	for n, e := range fields[1:] {
-		fmt.Printf("n: %d, len(s): %d\n", n, len(s))
+	for _, e := range fields[1:] {
 		if incr == -1 {
 			i, _ := strconv.Atoi(e)
 			s = append(s, i)
