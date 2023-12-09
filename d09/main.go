@@ -5,14 +5,17 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 //go:embed input.txt
 var input string
 
 func main() {
-	fmt.Printf("Part 1: %d\n", partOne(input))
-	fmt.Printf("Part 2: %d\n", partTwo(input))
+	start := time.Now()
+	fmt.Printf("Part 1: %d (in %s)\n", partOne(input), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Part 2: %d (in %s)\n", partTwo(input), time.Since(start))
 }
 
 func partOne(f string) int {
@@ -49,35 +52,33 @@ func partOne(f string) int {
 
 func partTwo(f string) int {
 	res := 0
-	var tmp []int
+	tmp := 0
 
 	for _, l := range strings.Split(f, "\n") {
 		fields := strings.Fields(l)
 		var diff []int
 		a, _ := strconv.Atoi(fields[0])
-		tmp = append(tmp, a)
+		tmp += a
+		n := 0
 		for i := 1; i < len(fields); i++ {
-			n, _ := strconv.Atoi(fields[i])
+			n, _ = strconv.Atoi(fields[i])
 			diff = append(diff, n-a)
 			a = n
 		}
-		tmp = append(tmp, diff[0])
+		tmp -= diff[0]
 
+		p := 1
 		for !sliceIsNull(diff) {
 			for i := 1; i < len(diff); i++ {
 				diff[i-1] = diff[i] - diff[i-1]
 			}
 			diff = diff[:len(diff)-1]
-			tmp = append(tmp, diff[0])
+			tmp += p * diff[0]
+			p *= -1
 		}
 
-		a = 0
-		for j := len(tmp) - 2; j >= 0; j-- {
-			i := tmp[j] - a
-			a = i
-		}
-		res += a
-		tmp = []int{}
+		res += tmp
+		tmp = 0
 	}
 
 	return res
